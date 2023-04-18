@@ -2,18 +2,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <bluefruit.h>
 
-#define NEOPIXEL_VERSION_STRING "Neopixel v2.0"
 
-/* Pin used to drive the NeoPixels */
-#if defined ARDUINO_NRF52840_CIRCUITPLAY || defined ARDUINO_NRF52840_FEATHER
-  #define PIN     PIN_NEOPIXEL
-#elif defined ARDUINO_NRF52832_FEATHER
-  #define PIN   30
-#else
-  #define PIN     6
-#endif
-
-#define MAXCOMPONENTS  4
 uint8_t *pixelBuffer = NULL;
 uint8_t width = 0;
 uint8_t height = 0;
@@ -33,19 +22,11 @@ void setup()
 {
   Serial.begin(115200);
   while ( !Serial ) delay(10);   // for nrf52840 with native usb
-
-  Serial.println("Adafruit Bluefruit Neopixel Test");
-  Serial.println("--------------------------------");
-
-  Serial.println();
-  Serial.println("Please connect using the Bluefruit Connect LE application");
-  
   // Config Neopixels
-  neopixel.begin();
 
   // Init Bluefruit
   Bluefruit.begin();
-  Bluefruit.setTxPower(4);    // Check bluefruit.h for supported values
+  Bluefruit.setTxPower(4);    // Check bluefruit.h for supported values maybe set to loewr vlaue later
 
   Bluefruit.Periph.setConnectCallback(connect_callback);
 
@@ -111,209 +92,174 @@ void loop()
   // Echo received data
   if ( Bluefruit.connected() && bleuart.notifyEnabled() )
   {
-    int command = bleuart.read();
+    int command = bleuart.write("Hello World");
+}
+}
+// void swapBuffers()
+// {
+//   uint8_t *base_addr = pixelBuffer;
+//   int pixelIndex = 0;
+//   for (int j = 0; j < height; j++)
+//   {
+//     for (int i = 0; i < width; i++) {
+//       if (components == 3) {
+//         neopixel.setPixelColor(pixelIndex, neopixel.Color(*base_addr, *(base_addr+1), *(base_addr+2)));
+//       }
+//       else {
+//         neopixel.setPixelColor(pixelIndex, neopixel.Color(*base_addr, *(base_addr+1), *(base_addr+2), *(base_addr+3) ));
+//       }
+//       base_addr+=components;
+//       pixelIndex++;
+//     }
+//     pixelIndex += stride - width;   // Move pixelIndex to the next row (take into account the stride)
+//   }
+//   neopixel.show();
 
-    switch (command) {
-      case 'V': {   // Get Version
-          commandVersion();
-          break;
-        }
+// }
+
+// void commandVersion() {
+//   Serial.println(F("Command: Version check"));
+// }
+
+// void commandSetup() {
+//   Serial.println(F("Command: Setup"));
+
+//   width = bleuart.read();
+//   height = bleuart.read();
+//   stride = bleuart.read();
+//   componentsValue = bleuart.read();
+//   is400Hz = bleuart.read();
+
+//   neoPixelType pixelType;
+//   pixelType = componentsValue + (is400Hz ? NEO_KHZ400 : NEO_KHZ800);
+
+//   components = (componentsValue == NEO_RGB || componentsValue == NEO_RBG || componentsValue == NEO_GRB || componentsValue == NEO_GBR || componentsValue == NEO_BRG || componentsValue == NEO_BGR) ? 3:4;
   
-      case 'S': {   // Setup dimensions, components, stride...
-          commandSetup();
-          break;
-       }
+//   Serial.printf("\tsize: %dx%d\n", width, height);
+//   Serial.printf("\tstride: %d\n", stride);
+//   Serial.printf("\tpixelType %d\n", pixelType);
+//   Serial.printf("\tcomponents: %d\n", components);
 
-      case 'C': {   // Clear with color
-          commandClearColor();
-          break;
-      }
+//   if (pixelBuffer != NULL) {
+//       delete[] pixelBuffer;
+//   }
 
-      case 'B': {   // Set Brightness
-          commandSetBrightness();
-          break;
-      }
-            
-      case 'P': {   // Set Pixel
-          commandSetPixel();
-          break;
-      }
+//   uint32_t size = width*height;
+//   pixelBuffer = new uint8_t[size*components];
+//   neopixel.updateLength(size);
+//   neopixel.updateType(pixelType);
+//   neopixel.setPin(PIN);
+
+//   // Done
+//   sendResponse("OK");
+// }
+
+// void commandSetBrightness() {
+//   Serial.println(F("Command: SetBrightness"));
+
+//    // Read value
+//   uint8_t brightness = bleuart.read();
+
+//   // Set brightness
+//   neopixel.setBrightness(brightness);
+
+//   // Refresh pixels
+//   swapBuffers();
+
+//   // Done
+//   sendResponse("OK");
+// }
+
+// void commandClearColor() {
+//   Serial.println(F("Command: ClearColor"));
+
+//   // Read color
+//   uint8_t color[MAXCOMPONENTS];
+//   for (int j = 0; j < components;) {
+//     if (bleuart.available()) {
+//       color[j] = bleuart.read();
+//       j++;
+//     }
+//   }
+
+//   // Set all leds to color
+//   int size = width * height;
+//   uint8_t *base_addr = pixelBuffer;
+//   for (int i = 0; i < size; i++) {
+//     for (int j = 0; j < components; j++) {
+//       *base_addr = color[j];
+//       base_addr++;
+//     }
+//   }
+
+//   // Swap buffers
+//   Serial.println(F("ClearColor completed"));
+//   swapBuffers();
+
+
+//   if (components == 3) {
+//     Serial.printf("\tclear (%d, %d, %d)\n", color[0], color[1], color[2] );
+//   }
+//   else {
+//     Serial.printf("\tclear (%d, %d, %d, %d)\n", color[0], color[1], color[2], color[3] );
+//   }
   
-      case 'I': {   // Receive new image
-          commandImage();
-          break;
-       }
+//   // Done
+//   sendResponse("OK");
+// }
 
-    }
-  }
-}
+// void commandSetPixel() {
+//   Serial.println(F("Command: SetPixel"));
 
-void swapBuffers()
-{
-  uint8_t *base_addr = pixelBuffer;
-  int pixelIndex = 0;
-  for (int j = 0; j < height; j++)
-  {
-    for (int i = 0; i < width; i++) {
-      if (components == 3) {
-        neopixel.setPixelColor(pixelIndex, neopixel.Color(*base_addr, *(base_addr+1), *(base_addr+2)));
-      }
-      else {
-        neopixel.setPixelColor(pixelIndex, neopixel.Color(*base_addr, *(base_addr+1), *(base_addr+2), *(base_addr+3) ));
-      }
-      base_addr+=components;
-      pixelIndex++;
-    }
-    pixelIndex += stride - width;   // Move pixelIndex to the next row (take into account the stride)
-  }
-  neopixel.show();
+//   // Read position
+//   uint8_t x = bleuart.read();
+//   uint8_t y = bleuart.read();
 
-}
+//   // Read colors
+//   uint32_t pixelOffset = y*width+x;
+//   uint32_t pixelDataOffset = pixelOffset*components;
+//   uint8_t *base_addr = pixelBuffer+pixelDataOffset;
+//   for (int j = 0; j < components;) {
+//     if (bleuart.available()) {
+//       *base_addr = bleuart.read();
+//       base_addr++;
+//       j++;
+//     }
+//   }
 
-void commandVersion() {
-  Serial.println(F("Command: Version check"));
-  sendResponse(NEOPIXEL_VERSION_STRING);
-}
+//   // Set colors
+//   uint32_t neopixelIndex = y*stride+x;
+//   uint8_t *pixelBufferPointer = pixelBuffer + pixelDataOffset;
+//   uint32_t color;
+//   if (components == 3) {
+//     color = neopixel.Color( *pixelBufferPointer, *(pixelBufferPointer+1), *(pixelBufferPointer+2) );
+//     Serial.printf("\tcolor (%d, %d, %d)\n",*pixelBufferPointer, *(pixelBufferPointer+1), *(pixelBufferPointer+2) );
+//   }
+//   else {
+//     color = neopixel.Color( *pixelBufferPointer, *(pixelBufferPointer+1), *(pixelBufferPointer+2), *(pixelBufferPointer+3) );
+//     Serial.printf("\tcolor (%d, %d, %d, %d)\n", *pixelBufferPointer, *(pixelBufferPointer+1), *(pixelBufferPointer+2), *(pixelBufferPointer+3) );    
+//   }
+//   neopixel.setPixelColor(neopixelIndex, color);
+//   neopixel.show();
 
-void commandSetup() {
-  Serial.println(F("Command: Setup"));
+//   // Done
+//   sendResponse("OK");
+// }
 
-  width = bleuart.read();
-  height = bleuart.read();
-  stride = bleuart.read();
-  componentsValue = bleuart.read();
-  is400Hz = bleuart.read();
-
-  neoPixelType pixelType;
-  pixelType = componentsValue + (is400Hz ? NEO_KHZ400 : NEO_KHZ800);
-
-  components = (componentsValue == NEO_RGB || componentsValue == NEO_RBG || componentsValue == NEO_GRB || componentsValue == NEO_GBR || componentsValue == NEO_BRG || componentsValue == NEO_BGR) ? 3:4;
+// void commandImage() {
+//   Serial.printf("Command: Image %dx%d, %d, %d\n", width, height, components, stride);
   
-  Serial.printf("\tsize: %dx%d\n", width, height);
-  Serial.printf("\tstride: %d\n", stride);
-  Serial.printf("\tpixelType %d\n", pixelType);
-  Serial.printf("\tcomponents: %d\n", components);
-
-  if (pixelBuffer != NULL) {
-      delete[] pixelBuffer;
-  }
-
-  uint32_t size = width*height;
-  pixelBuffer = new uint8_t[size*components];
-  neopixel.updateLength(size);
-  neopixel.updateType(pixelType);
-  neopixel.setPin(PIN);
-
-  // Done
-  sendResponse("OK");
-}
-
-void commandSetBrightness() {
-  Serial.println(F("Command: SetBrightness"));
-
-   // Read value
-  uint8_t brightness = bleuart.read();
-
-  // Set brightness
-  neopixel.setBrightness(brightness);
-
-  // Refresh pixels
-  swapBuffers();
-
-  // Done
-  sendResponse("OK");
-}
-
-void commandClearColor() {
-  Serial.println(F("Command: ClearColor"));
-
-  // Read color
-  uint8_t color[MAXCOMPONENTS];
-  for (int j = 0; j < components;) {
-    if (bleuart.available()) {
-      color[j] = bleuart.read();
-      j++;
-    }
-  }
-
-  // Set all leds to color
-  int size = width * height;
-  uint8_t *base_addr = pixelBuffer;
-  for (int i = 0; i < size; i++) {
-    for (int j = 0; j < components; j++) {
-      *base_addr = color[j];
-      base_addr++;
-    }
-  }
-
-  // Swap buffers
-  Serial.println(F("ClearColor completed"));
-  swapBuffers();
-
-
-  if (components == 3) {
-    Serial.printf("\tclear (%d, %d, %d)\n", color[0], color[1], color[2] );
-  }
-  else {
-    Serial.printf("\tclear (%d, %d, %d, %d)\n", color[0], color[1], color[2], color[3] );
-  }
-  
-  // Done
-  sendResponse("OK");
-}
-
-void commandSetPixel() {
-  Serial.println(F("Command: SetPixel"));
-
-  // Read position
-  uint8_t x = bleuart.read();
-  uint8_t y = bleuart.read();
-
-  // Read colors
-  uint32_t pixelOffset = y*width+x;
-  uint32_t pixelDataOffset = pixelOffset*components;
-  uint8_t *base_addr = pixelBuffer+pixelDataOffset;
-  for (int j = 0; j < components;) {
-    if (bleuart.available()) {
-      *base_addr = bleuart.read();
-      base_addr++;
-      j++;
-    }
-  }
-
-  // Set colors
-  uint32_t neopixelIndex = y*stride+x;
-  uint8_t *pixelBufferPointer = pixelBuffer + pixelDataOffset;
-  uint32_t color;
-  if (components == 3) {
-    color = neopixel.Color( *pixelBufferPointer, *(pixelBufferPointer+1), *(pixelBufferPointer+2) );
-    Serial.printf("\tcolor (%d, %d, %d)\n",*pixelBufferPointer, *(pixelBufferPointer+1), *(pixelBufferPointer+2) );
-  }
-  else {
-    color = neopixel.Color( *pixelBufferPointer, *(pixelBufferPointer+1), *(pixelBufferPointer+2), *(pixelBufferPointer+3) );
-    Serial.printf("\tcolor (%d, %d, %d, %d)\n", *pixelBufferPointer, *(pixelBufferPointer+1), *(pixelBufferPointer+2), *(pixelBufferPointer+3) );    
-  }
-  neopixel.setPixelColor(neopixelIndex, color);
-  neopixel.show();
-
-  // Done
-  sendResponse("OK");
-}
-
-void commandImage() {
-  Serial.printf("Command: Image %dx%d, %d, %d\n", width, height, components, stride);
-  
-  // Receive new pixel buffer
-  int size = width * height;
-  uint8_t *base_addr = pixelBuffer;
-  for (int i = 0; i < size; i++) {
-    for (int j = 0; j < components;) {
-      if (bleuart.available()) {
-        *base_addr = bleuart.read();
-        base_addr++;
-        j++;
-      }
-    }
+//   // Receive new pixel buffer
+//   int size = width * height;
+//   uint8_t *base_addr = pixelBuffer;
+//   for (int i = 0; i < size; i++) {
+//     for (int j = 0; j < components;) {
+//       if (bleuart.available()) {
+//         *base_addr = bleuart.read();
+//         base_addr++;
+//         j++;
+//       }
+//     }
 
 /*
     if (components == 3) {
@@ -321,17 +267,17 @@ void commandImage() {
       Serial.printf("\tp%d (%d, %d, %d)\n", i, pixelBuffer[index], pixelBuffer[index+1], pixelBuffer[index+2] );
     }
     */
-  }
+  // }
 
-  // Swap buffers
-  Serial.println(F("Image received"));
-  swapBuffers();
+//   // Swap buffers
+//   Serial.println(F("Image received"));
+//   swapBuffers();
 
-  // Done
-  sendResponse("OK");
-}
+//   // Done
+//   sendResponse("OK");
+// }
 
-void sendResponse(char const *response) {
-    Serial.printf("Send Response: %s\n", response);
-    bleuart.write(response, strlen(response)*sizeof(char));
-}
+// void sendResponse(char const *response) {
+//     Serial.printf("Send Response: %s\n", response);
+//     bleuart.write(response, strlen(response)*sizeof(char));
+// }
