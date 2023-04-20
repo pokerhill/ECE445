@@ -1,10 +1,17 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include <bluefruit.h>
+#include <Adafruit_LittleFS.h>
+#include <InternalFileSystem.h>
+#include <Adafruit_TinyUSB.h> 
+#include <cstring>
 #define NUM_HALLS 4
 #define NUM_FLEX_SENS 5
 #define TIME_TILL_RECORD 5000
 #define DB_POWER 4 // values possible form high power to low: 4, 0, -4, -8, -12, -16, -20, -40
+#define FILENAME "/adafruit.txt"
+using namespace Adafruit_LittleFS_Namespace;
+bool write_flag = false;
 // //Hall PINS Input
 // int PIN_HALL_1_IN = ;
 // int PIN_HALL_2_IN = ;
@@ -32,6 +39,12 @@ int PIN_HALL_1_IN = 16;
 int PIN_HALL_2_IN = 15;
 int PIN_HALL_3_IN = 7;
 int PIN_HALL_4_IN = 11;
+File file(InternalFS);
+
+//LED PINS
+int RED_LED = ;
+int YELLOW_LED = ;
+int GREEN_LED = ;
 
 int hall_array[NUM_HALLS] = { PIN_HALL_1_IN, PIN_HALL_2_IN, PIN_HALL_3_IN, PIN_HALL_4_IN };
 
@@ -57,6 +70,9 @@ void pinsetup() {
   for (int i = 0; i < 5; i++) {
     pinMode(flex_sensor_array[i], INPUT);
   }
+  pinmode(RED_LED, OUTPUT);
+  pinmode(YELLOW_LED, OUTPUT);
+  pinmode(GREEN_LED, OUTPUT);
 }
 
 void set_flags() {
@@ -96,6 +112,9 @@ void clear_flags() {
   for (int i = 0; i < NUM_HALLS; i++) {
     flag_hall[i] = 0;
   }
+  // digitalWrite(RED_LED, LOW);
+  // digitalWrite(GREEN_LED, LOW);
+  // digitalWrite(YELLOW_LED, LOW);
 }
 
 
@@ -164,14 +183,115 @@ void connect_callback(uint16_t conn_handle)
 
 
 }
+void write_fs(){
+  String s = "";
+  for (int i = 0; i < NUM_HALLS-1; i++){
+    for (int j =0; j < NUM_FLEX_SENS; j++){
+      s +=String(flex_sensor_values[i][j])+",";
+    }
+  }
+   if( file.open(FILENAME, FILE_O_WRITE) )
+    {
+      file.write(s.c_str(),strlen(s.c_str()));
+      file.close();
+    }
+    else
+  {
+    Serial.println("Failed!");
+  }
 
+}
 
+void clear_fs(){
+  file.open(FILENAME, FILE_O_WRITE);
+    if(!file.truncate(0)){
+      Serial.println("ERRORS");
+    }
+    file.close();
+
+}
+
+void read_fs(){
+
+  file.open(FILENAME, FILE_O_READ);
+
+  // file existed
+  if ( file )
+  {
+    Serial.println(FILENAME " file exists");
+    uint32_t readlen;
+    char buffer[128] = { 0 };
+    readlen = file.read(buffer, sizeof(buffer));
+    buffer[readlen] = 0;
+    const char deilimeter[] = ",";//arduino stupid
+    int i = 0;
+    int j = 0;
+    char* token = strtok(buffer, deilimeter);
+    while(token != NULL && (i < (NUM_HALLS-2) * (NUM_FLEX_SENS-1))){
+      if (j >= NUM_FLEX_SENS){
+        j=0;
+        i++;
+      }
+      flex_sensor_values[i][j] = atoi(token);
+      Serial.print(flex_sensor_values[i][j]);
+      Serial.print(",");
+      token = strtok(NULL,deilimeter);
+      j++;
+    }
+    Serial.println("Below is what is in the array after reaidng it in");
+    for (int k =0; k < (NUM_HALLS-1); k++){
+      for (int l = 0; l < NUM_FLEX_SENS; l++){
+        Serial.print(" ");
+        Serial.print(flex_sensor_values[k][l]);
+        Serial.print(",");
+      }
+    }
+    file.close();
+    // delay(100000000);
+  }
+  else{
+    Serial.print("Open " FILENAME " file to write ... ");
+
+    if( file.open(FILENAME, FILE_O_WRITE) )
+    {
+      const char* contents = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,";
+      Serial.println("OK");
+      file.write(contents, strlen(contents));
+      file.close();
+    }else
+    {
+      Serial.println("Failed!");
+    }
+  }
+
+    Serial.println("Done");
+  }
+
+void fs(){
+  while ( !Serial ) delay(10);   // for nrf52840 with native usb
+
+  Serial.println("Internal Read Write File Example");
+  Serial.println();
+
+  // Wait for user input to run. Otherwise the code will 
+  // always run immediately after flash and create the FILENAME in advance
+  // Serial.print("Enter to any keys to continue:");
+  Serial.println();
+  Serial.println();
+
+  // Initialize Internal File System
+  InternalFS.begin();
+  Serial.println("Opening File");
+  read_fs();
+  
+}
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   BluetoothSetup();
   pinsetup();
+  fs();
   Serial.print("Begin");
   
   //remmeber to add grabbing data from flash here
@@ -184,7 +304,9 @@ void loop() {
   set_flags();
   switch (flag_hall[0]) {
     case 1:
+      // digitalWrite(RED_LED, HIGH);    
       Serial.println("Go to Mirroring Mode");
+      
       clear_flags();
       while((flag_hall[0]==0 || flag_hall[0] == 1) && flag_hall[1] == 0 && flag_hall[2] == 0 && flag_hall[3]==0){
         set_flags();
@@ -219,6 +341,7 @@ void loop() {
     //  Serial.println(i);
     switch (flag_hall[i]) {
       case 1:{
+        // digitalWrite(GREEN_LED, LOW);
         // bleuart.write("these are presets");
         Serial.println("Send preset to Arduino ");
         String str_2;
@@ -236,6 +359,8 @@ void loop() {
       }
       case 2:{
         delay(TIME_TILL_RECORD);
+        // digitalWrite(YELLOW_LED, LOW);
+        write_flag = true; 
         // bleuart.write("these are the values");
         String str_3;
         for (int j = 0; j < NUM_FLEX_SENS; j++) {
@@ -255,5 +380,10 @@ void loop() {
     }
   }
   end_loop:
+  if(write_flag == true){
+  clear_fs();
+  write_fs();
+  write_flag = false; 
+  }
   clear_flags();
 }

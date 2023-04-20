@@ -2,6 +2,8 @@
  BLECharacteristic tx;
  BLEDevice peripheral;
  BLEService service;
+ #define NUM_FLEX_SENSORS 5
+int flex_sensor_values[NUM_FLEX_SENSORS] = {0,0,0,0,0};
 void connect_ble(){
    do {
     int count = BLE.scanForUuid("6e400001-b5a3-f393-e0a9-e50e24dcca9e");
@@ -83,12 +85,17 @@ void loop() {
           char val[20]={0} ;
           tx.readValue(val,20);
           Serial.print("Received: ");
-          Serial.println(String(val));
-          // for (int i =0; i < 20; i++){
-          //   Serial.print(value[i]);
-          //   Serial.print(", ");
-          // }
-    // }
+          // Serial.println(String(val));
+          const char deilimeter[] = ",";//arduino stupid
+          int i = 0;
+          char* token = strtok(val, deilimeter);
+          while(token != NULL && (i < NUM_FLEX_SENSORS)){
+            flex_sensor_values[i] = atoi(token);
+            Serial.print(flex_sensor_values[i]);
+            Serial.println(",");
+            token = strtok(NULL,deilimeter);
+            i++;
+    }
   }
   }
   if(!peripheral.connected()){
