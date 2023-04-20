@@ -48,7 +48,7 @@ int flex_sensor_array[NUM_FLEX_SENS] = { PIN_FLEX_1_IN, PIN_FLEX_2_IN, PIN_FLEX_
 
 int flex_sensor_values[NUM_HALLS-1][NUM_FLEX_SENS] = {{ 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0 }};
 
-BLECharacteristic myCharacteristic;
+// BLECharacteristic myCharacteristic;
 void pinsetup() {
   for (int i = 0; i < NUM_HALLS; i++) {
     pinMode(hall_array[i], INPUT);
@@ -134,15 +134,7 @@ void startAdv(void)
   // Include bleuart 128-bit uuid
   Bluefruit.Advertising.addService(bleuart);
 
-  myCharacteristic = BLECharacteristic("6E400003-B5A3-F393-E0A9-E50E24DCCA9E");//6E400003-B5A3-F393-E0A9-E50E24DCCA9E
-  myCharacteristic.setProperties(CHR_PROPS_READ  | CHR_PROPS_WRITE | CHR_PROS_NOTIFY);
-  myCharacteristic.setPermission(SECMODE_OPEN, SECMODE_OPEN);
-  myCharacteristic.setFixedLen(20);
-  myCharacteristic.begin();
-  // bleuart.addCharacteristic(myCharacteristic);
 
-  // Secondary Scan Response packet (optional)
-  // Since there is no room for 'Name' in Advertising packet
   Bluefruit.ScanResponse.addName();
   
   /* Start Advertising
@@ -172,6 +164,8 @@ void connect_callback(uint16_t conn_handle)
 
 
 }
+
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -203,9 +197,10 @@ void loop() {
           Serial.println(flex_sens);
           str += String(flex_sens)+",";
         }
-        myCharacteristic.write(str.c_str(), str.length());
+        // str+="\n";
+        bleuart.write(str.c_str(), str.length());
         unsigned long prev = millis();
-        while(millis()-prev<1000){
+        while(millis()-prev<1000){ // transmitting mirroring mode rate
           set_flags();
         }
         set_flags();
@@ -224,7 +219,7 @@ void loop() {
     //  Serial.println(i);
     switch (flag_hall[i]) {
       case 1:{
-        // myCharacteristic.write("these are presets");
+        // bleuart.write("these are presets");
         Serial.println("Send preset to Arduino ");
         String str_2;
         for (int j = 0; j < NUM_FLEX_SENS; j++) {
@@ -235,12 +230,13 @@ void loop() {
           Serial.println(flex_sensor_values[i-1][j]);
           str_2 += String(flex_sensor_values[i-1][j])+",";
         }
-        myCharacteristic.write(str_2.c_str(), str_2.length());
+        // str_2 +="/n";
+        bleuart.write(str_2.c_str(), str_2.length());
         goto end_loop;
       }
       case 2:{
         delay(TIME_TILL_RECORD);
-        // myCharacteristic.write("these are the values");
+        // bleuart.write("these are the values");
         String str_3;
         for (int j = 0; j < NUM_FLEX_SENS; j++) {
           flex_sensor_values[i-1][j] = analogRead(flex_sensor_array[j]);
@@ -250,7 +246,8 @@ void loop() {
           Serial.println(flex_sensor_values[i-1][j]);
           str_3 += String(flex_sensor_values[i-1][j])+",";
         }
-          myCharacteristic.write(str_3.c_str(), str_3.length());
+        // str_3+="/n";
+          bleuart.write(str_3.c_str(), str_3.length());
         goto end_loop;
       }
       default:
