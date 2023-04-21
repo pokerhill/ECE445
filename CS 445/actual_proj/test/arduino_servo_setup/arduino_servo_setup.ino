@@ -1,34 +1,39 @@
 #include <Servo.h>
+int i = 0;
+Servo thumb;
+Servo index_finger;
+Servo middle;
+Servo ring;
+Servo pinky;
+Servo servoArray[] = { thumb, index_finger, middle, ring, pinky }; //90 is 0 position
+//thumb min: 15 middle: 40 max:145
+//index min:0 middle: 25 max 145
+// middle min:15  middle: 25  max:150
+// ring min:8  middle: ? max: 140
+//pink min: 26   middle: 45 max:140 
 
-Servo myServo1;
-Servo myServo2;
-Servo myServo3;
-Servo myServo4;
-Servo myServo5;
 
 void setup() {
   Serial.begin(9600);
-  myServo1.attach(D2); // attach servo to pin 9
-  myServo2.attach(D3);
-  myServo3.attach(D4);
-  myServo4.attach(D5);
-  myServo5.attach(D6);
-  // Serial.println("Beginning");
-  Servo servoArray[] = {myServo1, myServo2, myServo3, myServo4, myServo5};
-  int angle = 90; // desired angle
-  int count = 0;
-  for (int i = 0; i<5; i++){
-  // Serial.print("This is servo: ");
-  // Serial.println(i);
-  // Serial.print("this is counter: ");
-  // Serial.println(count);
-  // count++;
-  // int pulseWidth = map(angle, 0, 180, 500, 2500); // map angle to pulse width
-  servoArray[i].write(angle);
-  delay(4000); // wait for servo to reach angle
-  }
+  thumb.attach(D6);  // attach servo to pin 9
+  index_finger.attach(D5);
+  middle.attach(D4);
+  ring.attach(D3);
+  pinky.attach(D2);
+  Serial.println("Beginning");
 }
 
+
 void loop() {
-  delay(100000);
+  if (Serial.available() > 0) {
+    int angle = Serial.parseInt();  // desired angle
+    if (angle > 270 || angle < 0) {
+      Serial.println("Try again");
+      return;
+    } else {
+      Serial.print("value of angle: ");
+      Serial.println(angle);
+    }
+    servoArray[i].write(angle);
+  }
 }

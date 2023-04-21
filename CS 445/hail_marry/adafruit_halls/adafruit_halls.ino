@@ -4,22 +4,12 @@
 #include <Adafruit_LittleFS.h>
 #include <InternalFileSystem.h>
 #include <Adafruit_TinyUSB.h> 
-#include "pitches.h"
 #include <cstring>
 #define NUM_HALLS 4
 #define NUM_FLEX_SENS 5
 #define TIME_TILL_RECORD 5000
 #define DB_POWER 4 // values possible form high power to low: 4, 0, -4, -8, -12, -16, -20, -40
 #define FILENAME "/adafruit.txt"
-#define PIZZO_SPEAKER 13
-int melody[] = {
-NOTE_C4, NOTE_G3, NOTE_G3, NOTE_A3, NOTE_G3, 0, NOTE_B3, NOTE_C4
-};
-
-int noteDurations[] = {
-
-  4, 8, 8, 4, 4, 4, 4, 4
-};
 using namespace Adafruit_LittleFS_Namespace;
 bool write_flag = false;
 // //Hall PINS Input
@@ -32,19 +22,17 @@ bool write_flag = false;
 const unsigned long interval = 5000;
 // int prev_button_state = LOW;
 
-//buzzer is pin 13, MOSI
-
 // BLE Service
 BLEDfu  bledfu;
 BLEDis  bledis;
 BLEUart bleuart;
 
 //flex sensor pins Input
-int PIN_FLEX_1_IN = A0;//thumb
-int PIN_FLEX_2_IN = A1;//index
-int PIN_FLEX_3_IN = A2;//middle
-int PIN_FLEX_4_IN = A3;//ring
-int PIN_FLEX_5_IN = A4;//pinky
+int PIN_FLEX_1_IN = A0;
+int PIN_FLEX_2_IN = A1;
+int PIN_FLEX_3_IN = A2;
+int PIN_FLEX_4_IN = A3;
+int PIN_FLEX_5_IN = A4;
 
 //Hall PINS Input
 int PIN_HALL_1_IN = 16;
@@ -54,9 +42,9 @@ int PIN_HALL_4_IN = 11;
 File file(InternalFS);
 
 //LED PINS
-int RED_LED =27 ;
-int YELLOW_LED =26;
-int GREEN_LED = 25;
+int RED_LED = ;
+int YELLOW_LED = ;
+int GREEN_LED = ;
 
 int hall_array[NUM_HALLS] = { PIN_HALL_1_IN, PIN_HALL_2_IN, PIN_HALL_3_IN, PIN_HALL_4_IN };
 
@@ -74,32 +62,6 @@ int flex_sensor_array[NUM_FLEX_SENS] = { PIN_FLEX_1_IN, PIN_FLEX_2_IN, PIN_FLEX_
 int flex_sensor_values[NUM_HALLS-1][NUM_FLEX_SENS] = {{ 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0 },{ 0, 0, 0, 0, 0 }};
 
 // BLECharacteristic myCharacteristic;
-
-void startuptheme(){
-  for (int thisNote = 0; thisNote < 8; thisNote++) {
-
-    // to calculate the note duration, take one second divided by the note type.
-
-    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-
-    int noteDuration = 1000 / noteDurations[thisNote];
-
-    tone(PIZZO_SPEAKER, melody[thisNote], noteDuration);
-
-    // to distinguish the notes, set a minimum time between them.
-
-    // the note's duration + 30% seems to work well:
-
-    int pauseBetweenNotes = noteDuration * 1.30;
-
-    delay(pauseBetweenNotes);
-
-    // stop the tone playing:
-
-    noTone(PIZZO_SPEAKER);
-
-  }
-}
 void pinsetup() {
   for (int i = 0; i < NUM_HALLS; i++) {
     pinMode(hall_array[i], INPUT);
@@ -108,12 +70,9 @@ void pinsetup() {
   for (int i = 0; i < 5; i++) {
     pinMode(flex_sensor_array[i], INPUT);
   }
-  pinMode(RED_LED, OUTPUT);
-  pinMode(YELLOW_LED, OUTPUT);
-  pinMode(GREEN_LED, OUTPUT);
-  digitalWrite(RED_LED, LOW);
-  digitalWrite(YELLOW_LED, LOW);
-  digitalWrite(GREEN_LED, LOW);
+  pinmode(RED_LED, OUTPUT);
+  pinmode(YELLOW_LED, OUTPUT);
+  pinmode(GREEN_LED, OUTPUT);
 }
 
 void set_flags() {
@@ -153,9 +112,9 @@ void clear_flags() {
   for (int i = 0; i < NUM_HALLS; i++) {
     flag_hall[i] = 0;
   }
-  digitalWrite(RED_LED, LOW);
-  digitalWrite(GREEN_LED, LOW);
-  digitalWrite(YELLOW_LED, LOW);
+  // digitalWrite(RED_LED, LOW);
+  // digitalWrite(GREEN_LED, LOW);
+  // digitalWrite(YELLOW_LED, LOW);
 }
 
 
@@ -334,7 +293,6 @@ void setup() {
   pinsetup();
   fs();
   Serial.print("Begin");
-  startuptheme();
   
   //remmeber to add grabbing data from flash here
   //  out()
@@ -346,11 +304,11 @@ void loop() {
   set_flags();
   switch (flag_hall[0]) {
     case 1:
+      // digitalWrite(RED_LED, HIGH);    
       Serial.println("Go to Mirroring Mode");
       
       clear_flags();
       while((flag_hall[0]==0 || flag_hall[0] == 1) && flag_hall[1] == 0 && flag_hall[2] == 0 && flag_hall[3]==0){
-        digitalWrite(RED_LED, HIGH);    
         set_flags();
         String str;
         for (int j = 0; j < NUM_FLEX_SENS; j++) {
@@ -364,14 +322,14 @@ void loop() {
         // str+="\n";
         bleuart.write(str.c_str(), str.length());
         unsigned long prev = millis();
-        while(millis()-prev<30){ // transmitting mirroring mode rate
+        while(millis()-prev<1000){ // transmitting mirroring mode rate
           set_flags();
         }
         set_flags();
 
 
       }
-      break;
+      goto end_loop;
     case 2:
       Serial.println("Turn off");
       goto end_loop;
@@ -383,11 +341,12 @@ void loop() {
     //  Serial.println(i);
     switch (flag_hall[i]) {
       case 1:{
-        digitalWrite(GREEN_LED, HIGH);
+        // digitalWrite(GREEN_LED, LOW);
         // bleuart.write("these are presets");
         Serial.println("Send preset to Arduino ");
         String str_2;
         for (int j = 0; j < NUM_FLEX_SENS; j++) {
+          flex_sensor_values[i-1][j] = analogRead(flex_sensor_array[j]);
           Serial.print("the value of flex sensor ");
           Serial.print(j);
           Serial.print(" is ");
@@ -396,12 +355,11 @@ void loop() {
         }
         // str_2 +="/n";
         bleuart.write(str_2.c_str(), str_2.length());
-        delay(3000);
         goto end_loop;
       }
       case 2:{
-        digitalWrite(YELLOW_LED, HIGH);
         delay(TIME_TILL_RECORD);
+        // digitalWrite(YELLOW_LED, LOW);
         write_flag = true; 
         // bleuart.write("these are the values");
         String str_3;
