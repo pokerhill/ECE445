@@ -429,6 +429,7 @@ void loop() {
         }
         set_flags();
       }
+      turn_off();
       break;
     }
     case 2:

@@ -1,5 +1,5 @@
 #include <Servo.h>
-int i = 0;
+int i = 3;
 Servo thumb;
 Servo index_finger;
 Servo middle;
@@ -8,7 +8,7 @@ Servo pinky;
 Servo servoArray[] = { thumb, index_finger, middle, ring, pinky }; //90 is 0 position
 //thumb min: 15 middle: 40 max:145
 //index min:0 middle: 25 max 145
-// middle min:15  middle: 25  max:150
+// middle min:0  middle: 25  max:150
 // ring min:8  middle: ? max: 140
 //pink min: 26   middle: 45 max:140 
 

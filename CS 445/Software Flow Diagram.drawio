@@ -1,22 +1,27 @@
-<mxfile host="app.diagrams.net" modified="2023-03-29T19:53:52.848Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="2vbCB0l0SNB1w7l5j0x8" version="21.1.2" type="device">
+<mxfile host="app.diagrams.net" modified="2023-04-27T07:13:55.895Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="LYG5GMfve2VohSltx2YF" version="21.1.2" type="device">
   <diagram name="Page-1" id="pkLAPUCV8nbZUWdwTFHu">
-    <mxGraphModel dx="958" dy="1608" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="791" dy="2620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-1" value="Turn Device On" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="300" y="-1080" width="240" height="60" as="geometry" />
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-1" value="Turn Device On" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="300" y="-1190" width="240" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-1">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-2" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="Ti_LUZ4ulphIWhXmHdEP-3" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="400" y="-1040" as="sourcePoint" />
             <mxPoint x="420" y="-960" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-3" value="Do Nothing" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-6" value="Bluetooth Connected" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="j-Q63R2a3pPhYPF7xZJ9-2">
+          <mxGeometry x="-0.4212" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" y="13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-3" value="Do Nothing" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="350" y="-960" width="140" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-3" target="j-Q63R2a3pPhYPF7xZJ9-5">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-3" target="j-Q63R2a3pPhYPF7xZJ9-5" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="420" y="-920" as="sourcePoint" />
             <mxPoint x="420" y="-830" as="targetPoint" />
@@ -26,13 +31,18 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-5" value="Mirroring Mode" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-11" value="Single Tap (I)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="j-Q63R2a3pPhYPF7xZJ9-4">
+          <mxGeometry x="0.4284" y="1" relative="1" as="geometry">
+            <mxPoint x="19" y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-5" value="Mirroring Mode" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="200" y="-800" width="140" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-6" value="Hand Preset Mode" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-6" value="Hand Preset Mode" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="510" y="-800" width="140" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-7" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="j-Q63R2a3pPhYPF7xZJ9-6">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-7" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="j-Q63R2a3pPhYPF7xZJ9-6" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="420" y="-840" as="sourcePoint" />
             <mxPoint x="470" y="-890" as="targetPoint" />
@@ -41,16 +51,16 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-11" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-5" target="j-Q63R2a3pPhYPF7xZJ9-12">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-11" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-5" target="j-Q63R2a3pPhYPF7xZJ9-12" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="420" y="-670" as="sourcePoint" />
             <mxPoint x="270" y="-700" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-12" value="Check if trying to change to Hand Preset Mode or to Turn Device Off or stay in Mirroring Mode" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-12" value="Check if trying to change to Hand Preset Mode or to Turn Device Off or stay in Mirroring Mode" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="190" y="-700" width="160" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-13" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.012;entryY=0.411;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-12" target="j-Q63R2a3pPhYPF7xZJ9-5">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-13" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.012;entryY=0.411;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-12" target="j-Q63R2a3pPhYPF7xZJ9-5" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="360" y="-730" as="sourcePoint" />
             <mxPoint x="410" y="-780" as="targetPoint" />
@@ -60,7 +70,12 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-14" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="j-Q63R2a3pPhYPF7xZJ9-3">
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-2" value="loop Mirror&lt;br&gt;Mode" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="j-Q63R2a3pPhYPF7xZJ9-13">
+          <mxGeometry x="0.0827" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-14" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="j-Q63R2a3pPhYPF7xZJ9-3" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="120" y="-660" as="sourcePoint" />
             <mxPoint x="410" y="-780" as="targetPoint" />
@@ -70,23 +85,33 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-15" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-12" target="j-Q63R2a3pPhYPF7xZJ9-6">
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-12" value="Double Tap (I)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="j-Q63R2a3pPhYPF7xZJ9-14">
+          <mxGeometry x="0.4395" y="-2" relative="1" as="geometry">
+            <mxPoint x="3" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-15" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-12" target="j-Q63R2a3pPhYPF7xZJ9-6" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="420" y="-770" as="sourcePoint" />
             <mxPoint x="470" y="-820" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="440" y="-660" />
-              <mxPoint x="440" y="-770" />
+              <mxPoint x="410" y="-660" />
+              <mxPoint x="410" y="-770" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-16" value="Record and Save a New Position" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-13" value="Single or Double tap&amp;nbsp;&lt;br&gt;(M/R/P)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="j-Q63R2a3pPhYPF7xZJ9-15">
+          <mxGeometry x="-0.8633" y="2" relative="1" as="geometry">
+            <mxPoint x="42" y="-58" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-16" value="Record and Save a New Position" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="590" y="-690" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-17" value="Go to Preset Position" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-17" value="Go to Preset Position" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="450" y="-690" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-18" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-6" target="j-Q63R2a3pPhYPF7xZJ9-17">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-18" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-6" target="j-Q63R2a3pPhYPF7xZJ9-17" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="420" y="-700" as="sourcePoint" />
             <mxPoint x="470" y="-750" as="targetPoint" />
@@ -96,7 +121,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-20" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="j-Q63R2a3pPhYPF7xZJ9-16">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-20" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="j-Q63R2a3pPhYPF7xZJ9-16" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="580" y="-710" as="sourcePoint" />
             <mxPoint x="470" y="-750" as="targetPoint" />
@@ -105,7 +130,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-21" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="j-Q63R2a3pPhYPF7xZJ9-3">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-21" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="j-Q63R2a3pPhYPF7xZJ9-3" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="510" y="-630" as="sourcePoint" />
             <mxPoint x="560" y="-680" as="targetPoint" />
@@ -116,10 +141,63 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-23" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="j-Q63R2a3pPhYPF7xZJ9-16">
+        <mxCell id="j-Q63R2a3pPhYPF7xZJ9-23" value="" style="endArrow=none;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" target="j-Q63R2a3pPhYPF7xZJ9-16" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="650" y="-560" as="sourcePoint" />
             <mxPoint x="470" y="-750" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-5" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="j-Q63R2a3pPhYPF7xZJ9-1" target="Ti_LUZ4ulphIWhXmHdEP-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="420" y="-1130" as="sourcePoint" />
+            <mxPoint x="420" y="-960" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-3" value="Wait for Bluetooth Connection" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="-1080" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-7" value="" style="curved=1;endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" target="Ti_LUZ4ulphIWhXmHdEP-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="-1030" as="sourcePoint" />
+            <mxPoint x="540" y="-1080" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="540" y="-1030" />
+              <mxPoint x="560" y="-1050" />
+              <mxPoint x="530" y="-1070" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-8" value="Not Connected" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Ti_LUZ4ulphIWhXmHdEP-7">
+          <mxGeometry x="-0.5156" y="4" relative="1" as="geometry">
+            <mxPoint x="23" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-9" value="" style="curved=1;endArrow=classic;html=1;rounded=0;entryX=1;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" target="Ti_LUZ4ulphIWhXmHdEP-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="491" y="-951" as="sourcePoint" />
+            <mxPoint x="541" y="-1001" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="541" y="-951" />
+              <mxPoint x="550" y="-1000" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-10" value="Bluetooth &lt;br&gt;Disconnected" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Ti_LUZ4ulphIWhXmHdEP-9">
+          <mxGeometry x="-0.2036" y="-2" relative="1" as="geometry">
+            <mxPoint x="-6" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-14" value="Single or Double tap&lt;br&gt;(M/R/P)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="490" y="-860" as="geometry" />
+        </mxCell>
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-15" value="Single tap&amp;nbsp;&lt;br&gt;(M/R/P)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="540" y="-730" as="geometry">
+            <mxPoint x="1" y="6" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ti_LUZ4ulphIWhXmHdEP-16" value="Double tap&amp;nbsp;&lt;br&gt;(M/R/P)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="620" y="-730" as="geometry">
+            <mxPoint x="1" y="6" as="offset" />
           </mxGeometry>
         </mxCell>
       </root>

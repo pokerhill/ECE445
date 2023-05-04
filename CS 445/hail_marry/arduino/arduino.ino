@@ -119,8 +119,8 @@ void loop() {
           //Serial.println("these are the servo values");
           servoArray[0].write(constrain(map(flex_sensor_values[0],310, 540, 15,145),15,145));
           servoArray[1].write(constrain(map(flex_sensor_values[1],260, 570, 0,145),0,145));
-          servoArray[2].write(constrain(map(flex_sensor_values[2],360, 635, 15,150),15,150));
-          servoArray[3].write(constrain(map(flex_sensor_values[3],340, 618, 8,140),8,140));
+          servoArray[2].write(constrain(map(flex_sensor_values[2],360, 635, 0,150),0,150));
+          servoArray[3].write(constrain(map(flex_sensor_values[3],340, 618, 0,140),0,140));
           servoArray[4].write(constrain(map(flex_sensor_values[4],356, 595, 26,140),26,140));
           //thumb min: 15 middle: 40 max:145
           //index min:0 middle: 25 max 145

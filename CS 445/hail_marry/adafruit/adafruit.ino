@@ -34,10 +34,10 @@ int PIN_FLEX_4_IN = A3;//ring
 int PIN_FLEX_5_IN = A7;//pinky
 
 //Hall PINS Input
-int PIN_HALL_1_IN = 17;
-int PIN_HALL_2_IN = 16;
-int PIN_HALL_3_IN = 15;
-int PIN_HALL_4_IN = 14;
+int PIN_HALL_1_IN = 16;//17;
+int PIN_HALL_2_IN = 15;//16;
+int PIN_HALL_3_IN = 7;//15;
+int PIN_HALL_4_IN = 11;//14;
 File file(InternalFS);
 
 //LED PINS
@@ -73,9 +73,11 @@ void pinsetup() {
   pinMode(RED_LED, OUTPUT);
   pinMode(YELLOW_LED, OUTPUT);
   pinMode(GREEN_LED, OUTPUT);
+  pinMode(27,OUTPUT);
   digitalWrite(RED_LED, LOW);
   digitalWrite(YELLOW_LED, LOW);
   digitalWrite(GREEN_LED, LOW);
+  digitalWrite(27, LOW);
 }
 
 void set_flags() {
@@ -292,7 +294,7 @@ void fs(){
 
 void setup() {
   // put your setup code here, to run once:
-  //Serial.begin(115200);
+  Serial.begin(115200);
   BluetoothSetup();
   pinsetup();
   fs();
@@ -308,9 +310,11 @@ void loop() {
   set_flags();
   switch (flag_hall[0]) {
     case 1:
+    {
       //Serial.println("Go to Mirroring Mode");
       
       clear_flags();
+      unsigned long curr_time = millis();
       while((flag_hall[0]==0 || flag_hall[0] == 1) && flag_hall[1] == 0 && flag_hall[2] == 0 && flag_hall[3]==0){
         digitalWrite(RED_LED, HIGH);    
         set_flags();
@@ -324,14 +328,20 @@ void loop() {
           str += String(flex_sens)+",";
         }
         // str+="\n";
+        Serial.print("before advertise: ");
+        Serial.println(millis()-curr_time);
         bleuart.write(str.c_str(), str.length());
+        Serial.print("after advertised: ");
+        Serial.println(millis()-curr_time);
         unsigned long prev = millis();
         while(millis()-prev<30){ // transmitting mirroring mode rate
           set_flags();
         }
         set_flags();
+       curr_time = millis(); 
       }
       break;
+    }
     case 2:
       //Serial.println("Turn off");
       goto end_loop;
